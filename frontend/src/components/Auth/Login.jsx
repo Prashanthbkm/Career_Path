@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
@@ -18,7 +19,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/login",
+        "http://localhost:5000/api/v1/user/login",
         { email, password, role },
         {
           headers: {
@@ -66,7 +67,7 @@ const Login = () => {
               <div>
                 <input
                   type="email"
-                  placeholder="zk@gmail.com"
+                  placeholder="prashanth@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />

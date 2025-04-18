@@ -52,9 +52,17 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 
 //GENERATING A JWT TOKEN WHEN A USER REGISTERS OR LOGINS, IT DEPENDS ON OUR CODE THAT WHEN DO WE NEED TO GENERATE THE JWT TOKEN WHEN THE USER LOGIN OR REGISTER OR FOR BOTH. 
 userSchema.methods.getJWTToken = function () {
+
+  console.log("JWT_EXPIRES:", process.env.JWT_EXPIRES); // Check the value in the console
+
+  const jwtExpires = process.env.JWT_EXPIRES || "7d";  // Default to "7d" if undefined
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRES,
+    expiresIn: jwtExpires,
   });
 };
+
+
+
+
 
 export const User = mongoose.model("User", userSchema);

@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-unused-vars */
+import React, { useContext, useState } from "react";
 import { Context } from "../../main";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +15,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/v1/user/logout",
+        "http://localhost:5000/api/v1/user/logout",
         {
           withCredentials: true,
         }
@@ -32,7 +34,7 @@ const Navbar = () => {
         <div className="logo">
           <img src="/JobZee-logos__white.png" alt="logo" />
         </div>
-        <ul className={!show ? "menu" : "show-menu menu"}>
+        <ul className={`menu ${show ? "show-menu" : ""}`}>
           <li>
             <Link to={"/"} onClick={() => setShow(false)}>
               HOME
@@ -73,6 +75,99 @@ const Navbar = () => {
           <GiHamburgerMenu onClick={() => setShow(!show)} />
         </div>
       </div>
+
+      {/* Inline CSS Styling */}
+      <style jsx>{`
+        nav {
+          background-color: #333;
+          padding: 10px 20px;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .logo img {
+          width: 150px;
+        }
+
+        .menu {
+          list-style-type: none;
+          display: flex;
+          gap: 20px;
+          font-family: 'Times New Roman', serif; /* Classic font style */
+          font-size: 1.1rem;
+          color: white;
+          margin: 0;
+        }
+
+        .menu li {
+          transition: color 0.3s ease;
+        }
+
+        .menu li:hover {
+          color: #0073e6;
+        }
+
+        .hamburger {
+          display: none;
+          font-size: 2rem;
+          color: white;
+          cursor: pointer;
+          transition: transform 0.3s ease;
+        }
+
+        .hamburger:hover {
+          transform: scale(1.1);
+        }
+
+        .show-menu {
+          display: block;
+          animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #333;
+            width: 200px;
+            padding: 10px;
+            border-radius: 5px;
+          }
+
+          .hamburger {
+            display: block;
+          }
+
+          .menu li {
+            padding: 10px;
+            border-bottom: 1px solid #555;
+          }
+
+          .menu li:last-child {
+            border-bottom: none;
+          }
+        }
+      `}</style>
     </nav>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
@@ -22,7 +23,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/register",
+        "http://localhost:5000/api/v1/user/register",
         { name, phone, email, role, password },
         {
           headers: {
@@ -73,7 +74,7 @@ const Register = () => {
               <div>
                 <input
                   type="text"
-                  placeholder="Zeeshan"
+                  placeholder="Prashanth"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -85,7 +86,7 @@ const Register = () => {
               <div>
                 <input
                   type="email"
-                  placeholder="zk@gmail.com"
+                  placeholder="prashanth@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ const Jobs = () => {
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:4000/api/v1/job/getall", {
+        .get("http://localhost:5000/api/v1/job/getall", {
           withCredentials: true,
         })
         .then((res) => {

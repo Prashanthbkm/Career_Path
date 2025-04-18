@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -12,7 +13,7 @@ const JobDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/v1/job/${id}`, {
+      .get(`http://localhost:5000/api/v1/job/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -21,7 +22,7 @@ const JobDetails = () => {
       .catch((error) => {
         navigateTo("/notfound");
       });
-  }, []);
+  }, [id, navigateTo]);
 
   if (!isAuthorized) {
     navigateTo("/login");

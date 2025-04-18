@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect } from "react";
 import "./App.css";
 import { Context } from "./main";
@@ -23,7 +24,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/user/getuser",
+          "http://localhost:5000/api/v1/user/getuser",
           {
             withCredentials: true,
           }

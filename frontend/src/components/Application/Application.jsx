@@ -1,8 +1,10 @@
-import axios from "axios";
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
-import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../../main";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 const Application = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,20 +12,37 @@ const Application = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [resume, setResume] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { isAuthorized, user } = useContext(Context);
-
   const navigateTo = useNavigate();
+  const { id } = useParams();
 
-  // Function to handle file input changes
   const handleFileChange = (event) => {
-    const resume = event.target.files[0];
-    setResume(resume);
+    const file = event.target.files[0];
+
+    if (file) {
+      const validTypes = ["application/pdf", "image/png", "image/jpeg"];
+      if (validTypes.includes(file.type)) {
+        setResume(file);
+        toast.success("File uploaded successfully.");
+      } else {
+        setResume(null);
+        toast.error("Invalid file type. Please upload PNG, JPEG, or PDF.");
+      }
+    }
   };
 
-  const { id } = useParams();
   const handleApplication = async (e) => {
     e.preventDefault();
+
+    if (!resume) {
+      toast.error("Please upload your resume.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
@@ -35,25 +54,19 @@ const Application = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/application/post",
+        "http://localhost:5000/api/v1/application/post",
         formData,
         {
+          headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
         }
       );
-      setName("");
-      setEmail("");
-      setCoverLetter("");
-      setPhone("");
-      setAddress("");
-      setResume("");
       toast.success(data.message);
       navigateTo("/job/getall");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || "Application submission failed.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -91,24 +104,21 @@ const Application = () => {
             onChange={(e) => setAddress(e.target.value)}
           />
           <textarea
-            placeholder="CoverLetter..."
+            placeholder="Cover Letter"
             value={coverLetter}
             onChange={(e) => setCoverLetter(e.target.value)}
           />
           <div>
-            <label
-              style={{ textAlign: "start", display: "block", fontSize: "20px" }}
-            >
-              Select Resume
-            </label>
+            <label>Select Resume (PNG, JPEG, PDF)</label>
             <input
               type="file"
-              accept=".pdf, .jpg, .png"
+              accept=".pdf,.jpg,.jpeg,.png"
               onChange={handleFileChange}
-              style={{ width: "100%" }}
             />
           </div>
-          <button type="submit">Send Application</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Sending Application..." : "Send Application"}
+          </button>
         </form>
       </div>
     </section>

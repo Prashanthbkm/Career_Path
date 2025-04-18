@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { FaBuilding, FaSuitcase, FaUsers, FaUserPlus } from "react-icons/fa";
 
@@ -33,13 +34,12 @@ const HeroSection = () => {
       <div className="heroSection">
         <div className="container">
           <div className="title">
-            <h1>Find a job that suits</h1>
-            <h1>your interests and skills</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              voluptate repellat modi quidem aliquid eaque ducimus ipsa et,
-              facere mollitia!
-            </p>
+          <h2>Discover Your Perfect Job</h2>
+<h2>Align Your Passion with Your Career</h2>
+<p>
+  Unlock countless opportunities tailored to your skills and aspirations. Whether you&apos;re looking for your dream job or seeking top talent, JobZee connects the right people with the right roles. Start your journey today and transform your future!
+</p>
+
           </div>
           <div className="image">
             <img src="/heroS.jpg" alt="hero" />
