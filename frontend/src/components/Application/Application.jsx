@@ -6,17 +6,24 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const Application = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [coverLetter, setCoverLetter] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    coverLetter: "",
+    phone: "",
+    address: "",
+  });
   const [resume, setResume] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { isAuthorized, user } = useContext(Context);
   const navigateTo = useNavigate();
   const { id } = useParams();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -43,19 +50,17 @@ const Application = () => {
 
     setIsSubmitting(true);
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("address", address);
-    formData.append("coverLetter", coverLetter);
-    formData.append("resume", resume);
-    formData.append("jobId", id);
+    const applicationData = new FormData();
+    Object.keys(formData).forEach((key) => {
+      applicationData.append(key, formData[key]);
+    });
+    applicationData.append("resume", resume);
+    applicationData.append("jobId", id);
 
     try {
       const { data } = await axios.post(
         "http://localhost:5000/api/v1/application/post",
-        formData,
+        applicationData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
@@ -64,7 +69,7 @@ const Application = () => {
       toast.success(data.message);
       navigateTo("/job/getall");
     } catch (error) {
-      toast.error(error.response.data.message || "Application submission failed.");
+      toast.error(error.response?.data?.message || "Application submission failed.");
     } finally {
       setIsSubmitting(false);
     }
@@ -72,6 +77,7 @@ const Application = () => {
 
   if (!isAuthorized || (user && user.role === "Employer")) {
     navigateTo("/");
+    return null;
   }
 
   return (
@@ -81,32 +87,37 @@ const Application = () => {
         <form onSubmit={handleApplication}>
           <input
             type="text"
+            name="name"
             placeholder="Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={handleInputChange}
           />
           <input
             type="email"
+            name="email"
             placeholder="Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleInputChange}
           />
           <input
             type="number"
+            name="phone"
             placeholder="Your Phone Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={formData.phone}
+            onChange={handleInputChange}
           />
           <input
             type="text"
+            name="address"
             placeholder="Your Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={formData.address}
+            onChange={handleInputChange}
           />
           <textarea
+            name="coverLetter"
             placeholder="Cover Letter"
-            value={coverLetter}
-            onChange={(e) => setCoverLetter(e.target.value)}
+            value={formData.coverLetter}
+            onChange={handleInputChange}
           />
           <div>
             <label>Select Resume (PNG, JPEG, PDF)</label>

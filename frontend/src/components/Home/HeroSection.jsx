@@ -34,11 +34,13 @@ const HeroSection = () => {
       <div className="heroSection">
         <div className="container">
           <div className="title">
-          <h2>Discover Your Perfect Job</h2>
-<h2>Align Your Passion with Your Career</h2>
+    <h2>🎯 Land Your Ideal Job</h2>
+<h2>🚀 Build Your Future</h2>
 <p>
-  Unlock countless opportunities tailored to your skills and aspirations. Whether you&apos;re looking for your dream job or seeking top talent, JobZee connects the right people with the right roles. Start your journey today and transform your future!
+  Let JobZee connect you with opportunities that inspire. Take the first step toward your career dreams! 🌟
 </p>
+
+
 
           </div>
           <div className="image">

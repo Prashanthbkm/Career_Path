@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="footer-text">
           Created with ❤️ | by Prashanth
           <br />
-          &copy; 2024 All Rights Reserved.
+          &copy; 2025 All Rights Reserved.
        
         <div className="footer-icons">
           <a
